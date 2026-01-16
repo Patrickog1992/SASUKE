@@ -335,7 +335,7 @@ const stepsData: QuizStep[] = [
     id: 34,
     type: 'question',
     title: 'Você se critica durante o sexo?',
-    options: ['Sim', 'Não', 'Às vezes', 'Não tenho certeza'],
+    options: ['Sim', 'Não', 'Às vezes', 'Não tenho certeza', 'Definitivamente não'],
     variableName: 'selfCriticism'
   },
   // 35. Partner Disappoint
@@ -1022,7 +1022,16 @@ export default function App() {
       <main className={`w-full mx-auto ${isSalesPage ? '' : 'max-w-md px-6 py-8 mt-6'}`}>
          {!isSalesPage && (
             <div className="flex justify-center mb-6">
-                <img src="https://i.imgur.com/5Iow3lA.png" alt="Protocolo Potência Máxima" className="w-[100px] h-[100px] object-contain" />
+                <img 
+                    src="https://i.imgur.com/5Iow3lA.png" 
+                    alt="Protocolo Potência Máxima" 
+                    className="w-[100px] h-[100px] object-contain" 
+                    width={100} 
+                    height={100}
+                    loading="eager"
+                    // @ts-ignore
+                    fetchPriority="high"
+                />
             </div>
          )}
         <AnimatePresence mode='wait' custom={direction}>
