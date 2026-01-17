@@ -1125,10 +1125,34 @@ const SalesNotification = () => {
     );
 };
 
+const DiscountTimer = () => {
+    const [seconds, setSeconds] = useState(600); // 10 minutes
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setSeconds(prev => (prev > 0 ? prev - 1 : 0));
+        }, 1000);
+        return () => clearInterval(interval);
+    }, []);
+
+    const formatTime = (time: number) => {
+        const minutes = Math.floor(time / 60);
+        const secs = time % 60;
+        return `${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''}${secs}`;
+    };
+
+    return (
+        <div className="bg-red-600 text-white text-center py-4 px-4 font-bold text-sm md:text-base w-full">
+            Você acabou de ganhar 70% de desconto que expira em: <span className="text-yellow-300 font-mono text-lg ml-1">{formatTime(seconds)}</span>
+        </div>
+    );
+};
+
 const SalesPage = ({ answers }: { answers: any }) => {
     return (
-        <div className="bg-white w-full pt-12">
+        <div className="bg-white w-full">
             <SalesNotification />
+            <DiscountTimer />
             
             {/* Header */}
             <div className="bg-blue-900 text-white p-6 text-center">
