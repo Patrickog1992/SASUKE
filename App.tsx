@@ -1078,29 +1078,6 @@ const FAQItem = ({ question, answer }: { question: string, answer: string }) => 
     );
 };
 
-const StickyTimer = () => {
-    const [seconds, setSeconds] = useState(600); // 10 minutes
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setSeconds(prev => (prev > 0 ? prev - 1 : 0));
-        }, 1000);
-        return () => clearInterval(interval);
-    }, []);
-
-    const formatTime = (time: number) => {
-        const minutes = Math.floor(time / 60);
-        const secs = time % 60;
-        return `${minutes < 10 ? '0' : ''}${minutes}:${secs < 10 ? '0' : ''}${secs}`;
-    };
-
-    return (
-        <div className="bg-red-600 text-white text-center py-2 px-4 font-bold text-sm md:text-base fixed top-0 left-0 right-0 w-full z-50 shadow-md">
-            Você acabou de ganhar 70% de desconto que expira em: <span className="text-yellow-300 font-mono text-lg ml-1">{formatTime(seconds)}</span>
-        </div>
-    );
-};
-
 const SalesNotification = () => {
     const names = ["João S.", "Carlos M.", "Pedro H.", "Lucas A.", "Mateus O.", "Felipe R.", "Rafael C.", "Bruno L.", "Thiago M."];
     const [visible, setVisible] = useState(false);
@@ -1151,7 +1128,6 @@ const SalesNotification = () => {
 const SalesPage = ({ answers }: { answers: any }) => {
     return (
         <div className="bg-white w-full pt-12">
-            <StickyTimer />
             <SalesNotification />
             
             {/* Header */}
@@ -1321,7 +1297,7 @@ const SalesPage = ({ answers }: { answers: any }) => {
                     <p className="text-gray-400 text-sm line-through">De R$ 497,00</p>
                     <div className="text-5xl font-black text-green-500 mb-2 tracking-tighter">R$ 47</div>
                     <p className="text-xs text-gray-500 mb-4">Pagamento único • Acesso vitalício</p>
-                    <button className="w-full bg-green-500 hover:bg-green-600 text-white font-black py-4 rounded-xl text-xl shadow-lg transform transition hover:scale-105 animate-pulse">
+                    <button onClick={() => window.location.href = 'https://go.perfectpay.com.br/PPU38CQ65ND'} className="w-full bg-green-500 hover:bg-green-600 text-white font-black py-4 rounded-xl text-xl shadow-lg transform transition hover:scale-105 animate-pulse">
                         QUERO O PROTOCOLO AGORA !
                     </button>
                     <div className="flex justify-center items-center mt-3 text-xs text-gray-500">
@@ -1395,7 +1371,7 @@ const SalesPage = ({ answers }: { answers: any }) => {
                             </div>
                         </div>
                     </div>
-                    <button className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl mt-8 shadow-lg animate-pulse">
+                    <button onClick={() => window.location.href = 'https://go.perfectpay.com.br/PPU38CQ65ND'} className="w-full bg-green-500 hover:bg-green-600 text-white font-bold py-4 rounded-xl mt-8 shadow-lg animate-pulse">
                         ENTRAR NO PROTOCOLO POTÊNCIA MÁXIMA
                     </button>
                 </div>
