@@ -1095,7 +1095,7 @@ const StickyTimer = () => {
     };
 
     return (
-        <div className="bg-red-600 text-white text-center py-2 px-4 font-bold text-sm md:text-base sticky top-0 z-40 shadow-md">
+        <div className="bg-red-600 text-white text-center py-2 px-4 font-bold text-sm md:text-base fixed top-0 left-0 right-0 w-full z-50 shadow-md">
             Você acabou de ganhar 70% de desconto que expira em: <span className="text-yellow-300 font-mono text-lg ml-1">{formatTime(seconds)}</span>
         </div>
     );
@@ -1133,14 +1133,14 @@ const SalesNotification = () => {
                     animate={{ x: 0, opacity: 1 }}
                     exit={{ x: 100, opacity: 0 }}
                     transition={{ type: "spring", stiffness: 100 }}
-                    className="fixed top-20 right-4 z-50 bg-white rounded-lg shadow-xl p-3 max-w-[250px] border-l-4 border-green-500 flex items-center gap-3"
+                    className="fixed top-24 right-4 z-50 bg-white rounded-lg shadow-xl p-2 max-w-[220px] border-l-4 border-green-500 flex items-center gap-2"
                 >
-                    <div className="bg-green-100 p-2 rounded-full">
-                         <CheckCircle2 className="w-5 h-5 text-green-600" />
+                    <div className="bg-green-100 p-1.5 rounded-full">
+                         <CheckCircle2 className="w-4 h-4 text-green-600" />
                     </div>
                     <div>
                         <p className="text-xs font-bold text-gray-800">{currentName}</p>
-                        <p className="text-[10px] text-gray-500 leading-tight">acabou de receber o PROTOCOLO</p>
+                        <p className="text-[10px] text-gray-500 leading-tight">acabou de receber o <span className="font-bold text-green-600">PROTOCOLO</span></p>
                     </div>
                 </motion.div>
             )}
@@ -1150,7 +1150,7 @@ const SalesNotification = () => {
 
 const SalesPage = ({ answers }: { answers: any }) => {
     return (
-        <div className="bg-white w-full">
+        <div className="bg-white w-full pt-12">
             <StickyTimer />
             <SalesNotification />
             
