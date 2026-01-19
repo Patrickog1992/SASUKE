@@ -218,43 +218,20 @@ const stepsData: QuizStep[] = [
     variableName: 'badHabits',
     multiSelect: true
   },
-  // 21. Height
-  {
-    id: 21,
-    type: 'input',
-    inputType: 'number',
-    title: 'Qual é a sua altura?',
-    subtitle: 'Calculando seu Índice de Massa Corporal (IMC). Estudos mostram que homens com IMC mais alto têm maior probabilidade de apresentar problemas de desempenho sexual.',
-    inputLabel: 'cm',
-    variableName: 'height'
-  },
-  // 22. Weight
-  {
-    id: 22,
-    type: 'input',
-    inputType: 'number',
-    title: 'Qual é o seu peso atual?',
-    subtitle: 'Um peso saudável favorece a circulação sanguínea e a testosterona — ambos essenciais para um bom desempenho sexual. Ajustaremos seu plano de acordo.',
-    inputLabel: 'kg',
-    variableName: 'weight'
-  },
+  // REMOVED: 21. Height (Removed per request)
+  // REMOVED: 22. Weight (Removed per request)
+  
   // 23. Age
   {
     id: 23,
-    type: 'input',
-    inputType: 'number',
+    type: 'question',
     title: 'Qual é a sua idade?',
     subtitle: 'Pedimos sua idade para criar o plano correto para você. À medida que os homens envelhecem, os níveis de testosterona diminuem, mesmo com o mesmo IMC — por isso a idade é importante para o desempenho e os resultados.',
-    inputLabel: 'anos',
+    options: ['18-25', '25-35', '35-55', '55+'],
     variableName: 'age'
   },
-  // 24. Profile Risk Summary
-  {
-    id: 24,
-    type: 'interstitial',
-    title: 'Seu perfil de risco de estilo de vida',
-    subtitle: 'Base forte para evoluir. Um peso saudável favorece a testosterona e o fluxo sanguíneo — fundamentais para músculos pélvicos mais fortes, melhor controle e desempenho mais confiável.'
-  },
+  // REMOVED: 24. Profile Risk Summary (Removed per request)
+
   // 25. Relationship
   {
     id: 25,
@@ -410,6 +387,7 @@ const stepsData: QuizStep[] = [
 
 // --- Helpers ---
 
+// Calculate BMI is kept for backward compatibility if needed, but not used in the main flow anymore
 const calculateBMI = (weight: number, height: number) => {
   if (!weight || !height) return { value: 0, status: 'Desconhecido' };
   const hM = height / 100;
@@ -722,40 +700,8 @@ export default function App() {
         )
     }
 
-    // 24. Profile Risk
-    if (currentStep.id === 24) {
-        const bmi = calculateBMI(parseFloat(answers.weight), parseFloat(answers.height));
-        const lifestyleRisk = (answers.badHabits && !answers.badHabits.includes('Nenhuma das opções')) ? 'Requer atenção' : 'Saudável';
-        
-        return (
-            <div className="flex flex-col space-y-4">
-                 <h2 className="text-2xl font-bold text-gray-900">{currentStep.title}</h2>
-                 
-                 <div className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
-                    <h3 className="font-semibold text-gray-700">Índice de Massa Corporal (IMC)</h3>
-                    <div className="flex items-end space-x-2 mt-2">
-                        <span className="text-3xl font-bold text-blue-600">{bmi.value}</span>
-                        <span className="text-sm text-gray-500 mb-1">kg/m²</span>
-                    </div>
-                    <div className="flex mt-2 text-xs font-bold text-white text-center rounded-full overflow-hidden">
-                        <div className={`flex-1 py-1 ${bmi.status === 'Normal' ? 'bg-green-500' : 'bg-gray-300'}`}>NORMAL</div>
-                        <div className={`flex-1 py-1 ${bmi.status === 'Sobrepeso' ? 'bg-yellow-500' : 'bg-gray-300'}`}>SOBREPESO</div>
-                        <div className={`flex-1 py-1 ${bmi.status === 'Obeso' ? 'bg-red-500' : 'bg-gray-300'}`}>OBESO</div>
-                    </div>
-                    <p className="text-sm text-gray-600 mt-3">{currentStep.subtitle}</p>
-                 </div>
-
-                 <div className="space-y-2 text-sm text-gray-700 bg-gray-50 p-4 rounded-xl">
-                    <div className="flex justify-between border-b pb-2"><span>Estilo de vida:</span> <span className="font-semibold">{lifestyleRisk}</span></div>
-                    <div className="flex justify-between border-b pb-2"><span>Atividade física:</span> <span className="font-semibold">{answers.activityLevel || 'Sedentário'}</span></div>
-                    <div className="flex justify-between border-b pb-2"><span>Nível de estresse:</span> <span className="font-semibold">{answers.stressLevel}/5</span></div>
-                    <div className="flex justify-between"><span>Objetivo:</span> <span className="font-semibold text-blue-600">{answers.goal}</span></div>
-                 </div>
-
-                 <button onClick={() => handleNext()} className="bg-blue-600 text-white w-full py-4 rounded-xl font-bold shadow-lg mt-4">Continuar</button>
-            </div>
-        )
-    }
+    // 24. Profile Risk - REMOVED
+    // Logic block for ID 24 was here, now deleted to prevent errors since step is gone.
 
     // 36. Profile Summary Calc
     if (currentStep.id === 36) {
@@ -1149,6 +1095,29 @@ const DiscountTimer = () => {
 };
 
 const SalesPage = ({ answers }: { answers: any }) => {
+    const summaryPoints = [
+        {
+            label: "Seu Objetivo Principal",
+            value: answers.goal || "Durar mais durante o sexo",
+            desc: "Focaremos em técnicas de retardamento e fortalecimento do assoalho pélvico para te dar controle total."
+        },
+        {
+            label: "Duração Atual",
+            value: answers.currentDuration || "Não informado",
+            desc: "O protocolo ajudará a estender esse tempo gradativamente através do controle neural e muscular."
+        },
+        {
+            label: "Frequência do Problema",
+            value: answers.ejaculationFrequency || "Variável",
+            desc: "Identificamos padrões de ansiedade que serão tratados especificamente no módulo de psicologia sexual."
+        },
+        {
+            label: "Nível de Estresse",
+            value: `${answers.stressLevel || 3}/5`,
+            desc: "O estresse libera cortisol, que inibe a testosterona. Seu plano inclui técnicas de relaxamento rápido antes do ato."
+        }
+    ];
+
     return (
         <div className="bg-white w-full">
             <SalesNotification />
@@ -1167,11 +1136,11 @@ const SalesPage = ({ answers }: { answers: any }) => {
                         <img src="https://quiz.getrelatio.com/funnels/Pe3MpF1/v_3g/images/OfferBefore.png" alt="Before" className="w-full rounded-lg mb-2 opacity-80" loading="eager" />
                         <div className="space-y-2 text-xs font-semibold">
                             <div>
-                                <p className="text-left mb-1">Controle</p>
+                                <p className="text-left mb-1">Controle da ejaculação</p>
                                 <div className="h-2 bg-gray-200 rounded-full"><div className="w-1/4 h-full bg-red-500 rounded-full"></div></div>
                             </div>
                             <div>
-                                <p className="text-left mb-1">Confiança</p>
+                                <p className="text-left mb-1">Confiança no sexo</p>
                                 <div className="h-2 bg-gray-200 rounded-full"><div className="w-1/3 h-full bg-red-500 rounded-full"></div></div>
                             </div>
                         </div>
@@ -1181,11 +1150,11 @@ const SalesPage = ({ answers }: { answers: any }) => {
                         <img src="https://quiz.getrelatio.com/funnels/Pe3MpF1/v_3g/images/OfferAfter.png" alt="After" className="w-full rounded-lg mb-2 shadow-lg ring-2 ring-green-500" loading="eager" />
                         <div className="space-y-2 text-xs font-semibold">
                             <div>
-                                <p className="text-left mb-1">Controle</p>
+                                <p className="text-left mb-1">Controle da ejaculação</p>
                                 <div className="h-2 bg-gray-200 rounded-full"><div className="w-full h-full bg-green-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div></div>
                             </div>
                             <div>
-                                <p className="text-left mb-1">Confiança</p>
+                                <p className="text-left mb-1">Confiança no sexo</p>
                                 <div className="h-2 bg-gray-200 rounded-full"><div className="w-full h-full bg-green-500 rounded-full shadow-[0_0_10px_rgba(34,197,94,0.5)]"></div></div>
                             </div>
                         </div>
@@ -1198,6 +1167,20 @@ const SalesPage = ({ answers }: { answers: any }) => {
 
                 <h2 className="text-xl font-bold mb-4">Aqui está o seu Plano Pessoal para melhorar seu desempenho sexual</h2>
                 <p className="text-gray-600 text-sm mb-6">Nosso algoritmo inteligente criou um plano personalizado com base nos seus objetivos.</p>
+
+                {/* Personal Summary Section */}
+                <div className="bg-blue-50 rounded-xl p-4 mb-8 border border-blue-100 shadow-sm">
+                    <h3 className="font-bold text-blue-900 mb-4 text-center">Sua Análise Personalizada</h3>
+                    <div className="grid gap-4">
+                      {summaryPoints.map((p, i) => (
+                        <div key={i} className="bg-white p-4 rounded-xl shadow-sm border border-gray-100">
+                          <p className="text-xs text-gray-500 uppercase font-bold tracking-wider mb-1">{p.label}</p>
+                          <p className="font-bold text-blue-700 text-lg mb-2 leading-tight">{p.value}</p>
+                          <p className="text-sm text-gray-600 leading-snug">{p.desc}</p>
+                        </div>
+                      ))}
+                    </div>
+                </div>
 
                 <ul className="space-y-3 mb-8">
                     {[
